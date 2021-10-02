@@ -1,0 +1,3 @@
+[submodule "gokart.js"]
+	path = gokart.js
+	url = git@github.com:nikolajbaer/gokart.js.git
