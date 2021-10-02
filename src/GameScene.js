@@ -16,13 +16,15 @@ import { ShipControlsSystem } from "./systems/ship_controls"
 import { ShipComponent } from "./components/ship"
 
 import { makeAutoObservable, runInAction } from "mobx"
+import { HUDDataComponent } from "gokart.js/src/core/components/hud"
+import { ShipSystem } from "./systems/ship"
 
 export class UnstableHUDState {
     health = 0
     manifold1 = false
     manifold2 = false
     manifold3 = false
-    reactor_status = 50
+    reactor_status = 0
     fps = 0
     constructor(){
         makeAutoObservable(this)
@@ -50,6 +52,7 @@ export class GameScene extends Physics2dScene {
         ship.addComponent(Body2dComponent,{body_type:'kinematic'})
         ship.addComponent(ActionListenerComponent)
         ship.addComponent(ShipComponent)
+        ship.addComponent(HUDDataComponent)
         ship.name = "ship"
     }
 
@@ -65,6 +68,7 @@ export class GameScene extends Physics2dScene {
         bounds: {x0:-20,x1:20,y0:-20,y1:50}
       })
       this.world.registerSystem(ShipControlsSystem)
+      this.world.registerSystem(ShipSystem)
     }
 
     get_meshes_to_load(){

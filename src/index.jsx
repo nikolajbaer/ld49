@@ -54,23 +54,20 @@ class Game extends React.Component {
                     <div className="panel">
                         <HUDView hudState={hudState}>
                         {hudState => (
-                            <div className="overlay">
-                                <h1>Example</h1>
-                                <p>{hudState?hudState.fps.toFixed(1):"-"} fps</p>
-                                <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
-                            </div>
-                        )} 
-                        </HUDView>
                         <div className="control">
+                            <p>{hudState?hudState.fps.toFixed(1):"-"} fps</p>
+                            <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
                             <button onClick={() => this.toggle_coolant(1,hudState)}>Toggle Coolant 1 {(hudState && hudState.manifold1)?"*":""}</button>
                             <button onClick={() => this.toggle_coolant(2,hudState)}>Toggle Coolant 2 {(hudState && hudState.manifold2)?"*":""}</button>
                             <button onClick={() => this.toggle_coolant(3,hudState)}>Toggle Coolant 3 {(hudState && hudState.manifold3)?"*":""}</button>
 
                             <p>Reactor Status</p>
                             <div className="reactor_progress">
-                                <div style={hudState?{width:hudState.reactor_status+"%"}:{width:"1%"}}></div>
+                                <div style={hudState?{width:(hudState.reactor_status*100)+"%"}:{width:"1%"}}></div>
                             </div>
                         </div>
+                        )} 
+                        </HUDView>
                     </div>
                 )}
             </GameComponent>
