@@ -1,0 +1,23 @@
+{
+  "name": "ld49",
+  "version": "1.0.0",
+  "description": "Ludum Dare 49 - Unstable ------------------------",
+  "main": "webpack.config.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack serve --open --config ./webpack.config.js --host 0.0.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^6.3.0",
+    "d3": "^7.1.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.56.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.0",
+    "xml-loader": "^1.2.1"
+  }
+}
