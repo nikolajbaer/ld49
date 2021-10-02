@@ -21,3 +21,5 @@ Dev Notes:
   rm -rf gokart.js
   ln -s ../gokart.js
 
+3. With submodule setup VSCode likes to reference '../gokart.js/...' on auto-import, need to get rid of the relative '..' to work on netlify!
+

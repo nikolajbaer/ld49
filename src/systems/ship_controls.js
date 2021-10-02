@@ -1,7 +1,7 @@
 import { System,Not } from "ecsy"
 import { Physics2dComponent } from "gokart.js/src/core/components/physics2d"
 
-import { ActionListenerComponent } from "../../gokart.js/src/core/components/controls"
+import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 
 export class ShipControlsSystem extends System {
   init(attributes) {
