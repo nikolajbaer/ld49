@@ -42,7 +42,7 @@ class Game extends React.Component {
     render(){
         if(this.state.playing){
             return  (
-            <div>
+            <div id="container">
                 <GameComponent className="screen" scene={this.state.scene}>
                 	{hudState => (
                         <HUDView hudState={hudState}>
@@ -57,10 +57,14 @@ class Game extends React.Component {
                         </HUDView>
                    )}
                 </GameComponent>
-                <div className="control">
+                <div className="control panel">
                     <button>Toggle Coolant 1</button>
                     <button>Toggle Coolant 2</button>
                     <button>Toggle Coolant 3</button>
+
+                    <div>
+                        REACTOR UNSTABLE
+                    </div>
                 </div>
             </div>
             )

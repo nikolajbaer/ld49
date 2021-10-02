@@ -3,6 +3,9 @@ import { CameraComponent,  ModelComponent, LightComponent  } from "gokart.js/src
 import { Body2dComponent } from "gokart.js/src/core/components/physics2d"
 import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
 import { LocRotComponent } from "gokart.js/src/core/components/position"
+import { AsteroidComponent } from "./components/asteroids"
+import { AsteroidsSystem } from "./systems/asteroids"
+import SHIP_GLB from "./assets/craft_speederD.glb";
 
 export class GameScene extends Physics2dScene {
     init_entities(){
@@ -15,13 +18,35 @@ export class GameScene extends Physics2dScene {
         l2.addComponent(LightComponent,{type:"directional",cast_shadow:true,intensity:0.6})
 
         const c = this.world.createEntity()
-        c.addComponent(CameraComponent,{lookAt: new Vector3(0,0,20),current: true, fov:60})
-        c.addComponent(LocRotComponent,{location: new Vector3(0,20,-15)})
+        c.addComponent(CameraComponent,{lookAt: new Vector3(0,0,10),current: true, fov:60})
+        c.addComponent(LocRotComponent,{location: new Vector3(0,20,-5)})
 
         const box = this.world.createEntity()
-        box.addComponent(ModelComponent,{})
+        box.addComponent(ModelComponent,{geometry:"ship"})
         box.addComponent(LocRotComponent,{location: new Vector3(0,0,0)})
-        //box.addComponent(Body2dComponent,{})
+        box.addComponent(Body2dComponent,{body_type:'kinematic'})
         box.name = "ship"
+    }
+
+    register_components(){
+      super.register_components()
+      this.world.registerComponent(AsteroidComponent)
+    }
+
+    register_systems(){
+      super.register_systems()
+      this.world.registerSystem(AsteroidsSystem,{
+        bounds: {x0:-20,x1:20,z0:-20,z1:60}
+      })
+    }
+
+    get_meshes_to_load(){
+        return {
+            "ship":{ 
+                url:SHIP_GLB,
+                scale: 1,
+                offset: new Vector3(0,0,0),
+            },
+        }
     }
 }
