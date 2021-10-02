@@ -22,7 +22,9 @@ const config = {
     external: ['require', 'fs', 'path'],
     loader: { 
       '.glb': 'file',
+      '.obj': 'file',
       '.mp3': 'file',
+      '.fbx': 'file',
     },
 }
 

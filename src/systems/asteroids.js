@@ -4,6 +4,9 @@ import { LocRotComponent } from "gokart.js/src/core/components/position"
 import { ModelComponent } from "gokart.js/src/core/components/render"
 import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
 import { AsteroidComponent } from "../components/asteroids"
+//import SHIP_GLB from "./assets/craft_speederD.glb";
+import { LogLuvEncoding } from "three"
+
 
 export class AsteroidsSystem extends System {
   init(attributes) {
@@ -26,7 +29,9 @@ export class AsteroidsSystem extends System {
     const e = this.world.createEntity()
     const pos = this.start_pos()
     e.addComponent(Body2dComponent,{body_type:'kinematic'})
-    e.addComponent(ModelComponent,{geometry:'box'})
+    const geo = "asteroid" + (Math.floor(Math.random() * 3) + 1);
+    console.log("geo", geo);
+    e.addComponent(ModelComponent,{geometry:geo})
     e.addComponent(LocRotComponent,{location:pos})
     e.addComponent(AsteroidComponent,{
       speed:Math.random()*this.level*this.speed + 0.25,

@@ -6,6 +6,10 @@ import { LocRotComponent } from "gokart.js/src/core/components/position"
 import { AsteroidComponent } from "./components/asteroids"
 import { AsteroidsSystem } from "./systems/asteroids"
 import SHIP_GLB from "./assets/craft_speederD.glb";
+import ASTEROID_MESH1 from "./assets/asteroids/1.fbx"
+import ASTEROID_MESH2 from "./assets/asteroids/2.fbx"
+import ASTEROID_MESH3 from "./assets/asteroids/3.fbx"
+
 import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
 import { ShipComponent } from "./components/ship"
@@ -54,6 +58,21 @@ export class GameScene extends Physics2dScene {
                 scale: 1,
                 offset: new Vector3(0,0,0),
             },
+            "asteroid1":{
+                url:ASTEROID_MESH1,
+                scale: 0.01,
+                offset: new Vector3(0,0,0),
+            },
+            "asteroid2":{
+              url:ASTEROID_MESH2,
+              scale: 0.006,
+              offset: new Vector3(0,0,0),
+            },
+            "asteroid3":{
+              url:ASTEROID_MESH3,
+              scale: 0.006,
+              offset: new Vector3(0,0,0),
+            }
         }
     }
 }
