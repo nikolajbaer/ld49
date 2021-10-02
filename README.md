@@ -9,7 +9,8 @@ You are having a reactor issue in the midst of an asteroid field. Time to get th
 Running it
 ----------
 
-docker-compose up
+  $ docker-compose run node npm install .
+  $ docker-compose up
 
 Dev Notes:
 ----------
