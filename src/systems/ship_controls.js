@@ -2,6 +2,7 @@ import { System,Not } from "ecsy"
 import { Physics2dComponent } from "gokart.js/src/core/components/physics2d"
 
 import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
+import { Vector2 } from "three"
 
 export class ShipControlsSystem extends System {
   init(attributes) {
@@ -11,13 +12,13 @@ export class ShipControlsSystem extends System {
     this.queries.ship.results.forEach( e => {
       const actions = e.getComponent(ActionListenerComponent).actions
       const body = e.getComponent(Physics2dComponent).body
-
+      
+      // on left or right, set the velocity
+      const v = body.getLinearVelocity();
       if(actions['left']){
-        body.setTransform({x:-10,y:0},0)
+        body.setLinearVelocity({x:v.x-1,y:v.y})
       }else if(actions['right']){
-        body.setTransform({x:10,y:0},0)
-      }else{
-        body.setTransform({x:0,y:0},0)
+        body.setLinearVelocity({x:v.x+1,y:v.y})
       }
     })
   }
