@@ -2,8 +2,8 @@ import * as React from 'react'
 import ReactDOM from "react-dom"
 import { GameComponent } from "gokart.js/src/core/ui_components/GameComponent.jsx"
 import { HUDView } from "gokart.js/src/core/ui_components/HUDView.jsx"
-import { MobileStick } from "gokart.js/src/core/ui_components/MobileStick.jsx"
 import { GameScene }  from "./GameScene"
+import { HUDSystem } from 'gokart.js/src/core/systems/hud'
 
 class Game extends React.Component {
     constructor(props){
@@ -39,34 +39,41 @@ class Game extends React.Component {
         this.setState({scene:scene})
     } 
 
+    toggle_coolant(num,hudState){
+        console.log("Toggling manifold "+num)
+        hudState.manifold1 = num == 1
+        hudState.manifold2 = num == 2
+        hudState.manifold3 = num == 3
+    }
+
     render(){
         if(this.state.playing){
             return  (
-            <div id="container">
-                <GameComponent className="screen" scene={this.state.scene}>
-                	{hudState => (
+            <GameComponent className="screen" scene={this.state.scene}>
+                {hudState => (
+                    <div className="panel">
                         <HUDView hudState={hudState}>
-                	    {hudState => (
+                        {hudState => (
                             <div className="overlay">
-                        		<h1>Example</h1>
+                                <h1>Example</h1>
                                 <p>{hudState?hudState.fps.toFixed(1):"-"} fps</p>
                                 <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
-                        	</div>
-
+                            </div>
                         )} 
                         </HUDView>
-                   )}
-                </GameComponent>
-                <div className="control panel">
-                    <button>Toggle Coolant 1</button>
-                    <button>Toggle Coolant 2</button>
-                    <button>Toggle Coolant 3</button>
+                        <div className="control">
+                            <button onClick={() => this.toggle_coolant(1,hudState)}>Toggle Coolant 1 {(hudState && hudState.manifold1)?"*":""}</button>
+                            <button onClick={() => this.toggle_coolant(2,hudState)}>Toggle Coolant 2 {(hudState && hudState.manifold2)?"*":""}</button>
+                            <button onClick={() => this.toggle_coolant(3,hudState)}>Toggle Coolant 3 {(hudState && hudState.manifold3)?"*":""}</button>
 
-                    <div>
-                        REACTOR UNSTABLE
+                            <p>Reactor Status</p>
+                            <div className="reactor_progress">
+                                <div style={hudState?{width:hudState.reactor_status+"%"}:{width:"1%"}}></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                )}
+            </GameComponent>
             )
         }else if(this.state.loading){
             return (
