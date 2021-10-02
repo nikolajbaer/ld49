@@ -19,13 +19,17 @@ import { makeAutoObservable, runInAction } from "mobx"
 import { HUDDataComponent } from "gokart.js/src/core/components/hud"
 import { ShipSystem } from "./systems/ship"
 
-export class UnstableHUDState {
+class UnstableHUDState {
     health = 0
-    manifold1 = false
-    manifold2 = false
-    manifold3 = false
+    manifold1 = 0 
+    manifold2 = 0 
+    manifold3 = 0 
     reactor_status = 0
     fps = 0
+    coolant1 = 0
+    coolant2 = 0
+    coolant3 = 0
+
     constructor(){
         makeAutoObservable(this)
     }

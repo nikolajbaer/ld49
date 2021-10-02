@@ -55,15 +55,27 @@ class Game extends React.Component {
                         <HUDView hudState={hudState}>
                         {hudState => (
                         <div className="control">
-                            <p>{hudState?hudState.fps.toFixed(1):"-"} fps</p>
                             <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
+                            <div className="coolant progress">
+                                <div style={hudState?{width:(hudState.coolant1*100)+"%"}:{width:"1%"}}></div>
+                            </div>
                             <button onClick={() => this.toggle_coolant(1,hudState)}>Toggle Coolant 1 {(hudState && hudState.manifold1)?"*":""}</button>
+                            <div className="coolant progress">
+                                <div style={hudState?{width:(hudState.coolant2*100)+"%"}:{width:"1%"}}></div>
+                            </div>
                             <button onClick={() => this.toggle_coolant(2,hudState)}>Toggle Coolant 2 {(hudState && hudState.manifold2)?"*":""}</button>
+                            <div className="coolant progress">
+                                <div style={hudState?{width:(hudState.coolant3*100)+"%"}:{width:"1%"}}></div>
+                            </div>
                             <button onClick={() => this.toggle_coolant(3,hudState)}>Toggle Coolant 3 {(hudState && hudState.manifold3)?"*":""}</button>
 
                             <p>Reactor Status</p>
-                            <div className="reactor_progress">
+                            <div className="reactor progress">
                                 <div style={hudState?{width:(hudState.reactor_status*100)+"%"}:{width:"1%"}}></div>
+                            </div>
+                            <p>Ship Hull Status</p>
+                            <div className="hull progress">
+                                <div style={hudState?{width:(hudState.health)+"%"}:{width:"100%"}}></div>
                             </div>
                         </div>
                         )} 
