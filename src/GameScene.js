@@ -10,6 +10,22 @@ import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
 import { ShipComponent } from "./components/ship"
 
+import { makeAutoObservable, runInAction } from "mobx"
+
+export class UnstableHUDState {
+    health = 0
+    manifold1 = false
+    manifold2 = false
+    manifold3 = false
+    reactor_status = 50
+    fps = 0
+
+    constructor(){
+        makeAutoObservable(this)
+    }
+
+}
+
 export class GameScene extends Physics2dScene {
     init_entities(){
         const l1 = this.world.createEntity()
@@ -55,5 +71,9 @@ export class GameScene extends Physics2dScene {
                 offset: new Vector3(0,0,0),
             },
         }
+    }
+    
+    init_hud_state(){
+        return new UnstableHUDState()
     }
 }
