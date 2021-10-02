@@ -5,10 +5,11 @@ import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
 import { LocRotComponent } from "gokart.js/src/core/components/position"
 import { AsteroidComponent } from "./components/asteroids"
 import { AsteroidsSystem } from "./systems/asteroids"
-import SHIP_GLB from "./assets/craft_speederD.glb";
+import SHIP from "./assets/spaceship.fbx";
 import ASTEROID_MESH1 from "./assets/asteroids/1.fbx"
 import ASTEROID_MESH2 from "./assets/asteroids/2.fbx"
 import ASTEROID_MESH3 from "./assets/asteroids/3.fbx"
+
 
 import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
@@ -23,7 +24,6 @@ export class UnstableHUDState {
     manifold3 = false
     reactor_status = 50
     fps = 0
-
     constructor(){
         makeAutoObservable(this)
     }
@@ -33,8 +33,8 @@ export class UnstableHUDState {
 export class GameScene extends Physics2dScene {
     init_entities(){
         const l1 = this.world.createEntity()
-        l1.addComponent(LocRotComponent,{location: new Vector3(0,0,0)})
-        l1.addComponent(LightComponent,{type:"ambient",intensity:0.6})
+        l1.addComponent(LocRotComponent,{location: new Vector3(1,1,1)})
+        l1.addComponent(LightComponent,{type:"ambient",intensity:0.002})
 
         const l2 = this.world.createEntity()
         l2.addComponent(LocRotComponent,{location: new Vector3(0,20,30),rotation: new Vector3(-Math.PI/4,0,0)})
@@ -70,23 +70,23 @@ export class GameScene extends Physics2dScene {
     get_meshes_to_load(){
         return {
             "ship":{ 
-                url:SHIP_GLB,
-                scale: 1,
+                url:SHIP,
+                scale: 0.005,
                 offset: new Vector3(0,0,0),
             },
             "asteroid1":{
                 url:ASTEROID_MESH1,
-                scale: 0.01,
+                scale: 0.005,
                 offset: new Vector3(0,0,0),
             },
             "asteroid2":{
               url:ASTEROID_MESH2,
-              scale: 0.006,
+              scale: 0.003,
               offset: new Vector3(0,0,0),
             },
             "asteroid3":{
               url:ASTEROID_MESH3,
-              scale: 0.006,
+              scale: 0.003,
               offset: new Vector3(0,0,0),
             }
         }

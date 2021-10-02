@@ -29,18 +29,16 @@ export class ShipControlsSystem extends System {
         body.setTransform({x:-10, y:p.y}, 0)
         body.setLinearVelocity({x: 0, y: 0})
       }
+      
       if (p.x > 10) {
         body.setTransform({x: 10, y:p.y}, 0)
         body.setLinearVelocity({x: 0, y: 0})
-
       }
 
       if ((time - this.lastLog) > 1.0) {
-        //console.log("ship position", body.getPosition(), body.getTransform());
         console.log(body.getLinearVelocity());
         this.lastLog = time;
       }
-
 
     })
   }
