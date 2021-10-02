@@ -10,38 +10,40 @@ export class AsteroidsSystem extends System {
     this.bounds = attributes.bounds
     this.max_asteroids = 10 
     this.level = 1
-    this.asteroid_freq = 0.95
+    this.speed = 5
+    this.asteroid_freq = 0.97
   }
 
   start_pos(){
     return new Vector3(
       Math.random()* (this.bounds.x1-this.bounds.x0)+this.bounds.x0,
-      0,
-      this.bounds.z1
+      this.bounds.y1,
+      0
     )
   }
 
   spawn_asteroid(){
     const e = this.world.createEntity()
+    const pos = this.start_pos()
     e.addComponent(Body2dComponent,{body_type:'kinematic'})
     e.addComponent(ModelComponent,{geometry:'box'})
-    e.addComponent(LocRotComponent,{location:this.start_pos()})
+    e.addComponent(LocRotComponent,{location:pos})
     e.addComponent(AsteroidComponent,{
-      speed:Math.random()*this.level + 0.25,
-      spin:Math.random()/100
+      speed:Math.random()*this.level*this.speed + 0.25,
+      spin:0.5 - Math.random()
     })
-    console.log("spawned asteroid")
+    console.log("spawned asteroid at ",pos)
   }
 
   respawn_asteroid(e){
-    console.log("respawning")
-    const l = e.getMutableComponent(LocRotComponent)
-    l.location = this.start_pos()
+    const pos = this.start_pos()
+    console.log("respawning at ", pos)
     const a = e.getMutableComponent(AsteroidComponent)
     e.speed = Math.random() * this.level
     e.spin = Math.random() * this.level
 
     const b = e.getComponent(Physics2dComponent).body
+    b.setTransform({x:pos.x,y:pos.y},b.getAngle())
     b.setLinearVelocity({x:0,y:-a.speed}) 
     b.setAngularVelocity(a.spin) 
 
@@ -64,7 +66,7 @@ export class AsteroidsSystem extends System {
 
     this.queries.asteroids.results.forEach( e => {
       const l = e.getComponent(LocRotComponent)
-      if(l.location.z < this.bounds.z0){
+      if(l.location.y < this.bounds.y0){
         // wait?
         this.respawn_asteroid(e)
       }
