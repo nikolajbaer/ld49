@@ -6,7 +6,7 @@ import { LocRotComponent } from "gokart.js/src/core/components/position"
 import { AsteroidComponent } from "./components/asteroids"
 import { AsteroidsSystem } from "./systems/asteroids"
 import SHIP_GLB from "./assets/craft_speederD.glb";
-import { ActionListenerComponent } from ".gokart.js/src/core/components/controls"
+import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
 import { ShipComponent } from "./components/ship"
 
