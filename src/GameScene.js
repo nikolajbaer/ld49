@@ -8,6 +8,7 @@ import { AsteroidsSystem } from "./systems/asteroids"
 import SHIP_GLB from "./assets/craft_speederD.glb";
 import { ActionListenerComponent } from "../gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
+import { ShipComponent } from "./components/ship"
 
 export class GameScene extends Physics2dScene {
     init_entities(){
@@ -28,12 +29,14 @@ export class GameScene extends Physics2dScene {
         ship.addComponent(LocRotComponent,{location: new Vector3(0,0,0),rotation: new Vector3(Math.PI/2,0,0)})
         ship.addComponent(Body2dComponent,{body_type:'kinematic'})
         ship.addComponent(ActionListenerComponent)
+        ship.addComponent(ShipComponent)
         ship.name = "ship"
     }
 
     register_components(){
       super.register_components()
       this.world.registerComponent(AsteroidComponent)
+      this.world.registerComponent(ShipComponent)
     }
 
     register_systems(){
