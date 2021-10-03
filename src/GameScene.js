@@ -20,6 +20,7 @@ import { HUDDataComponent } from "gokart.js/src/core/components/hud"
 import { ShipSystem } from "./systems/ship"
 import { ExplosionComponent } from "./components/explosion"
 import { ExplosionSystem } from "./systems/explosion"
+import { StarField } from "./util/Starfield"
 
 class UnstableHUDState {
     health = 0
@@ -52,6 +53,10 @@ export class GameScene extends Physics2dScene {
         const c = this.world.createEntity()
         c.addComponent(CameraComponent,{lookAt: new Vector3(0,10,0),current: true, fov:60})
         c.addComponent(LocRotComponent,{location: new Vector3(0,-10,20)})
+
+        const stars = this.world.createEntity()
+        stars.addComponent(ModelComponent,{geometry:"starfield"})
+        stars.addComponent(LocRotComponent)
 
         const ship = this.world.createEntity()
         ship.addComponent(ModelComponent,{geometry:"ship"})
@@ -103,6 +108,17 @@ export class GameScene extends Physics2dScene {
               offset: new Vector3(0,0,0),
             }
         }
+    }
+
+    get_mesh_functions(){
+      return {
+        "starfield": (entity,material,receiveShadow,castShadow) => {  
+          const starfield = new StarField(10000)
+          starfield.renderOrder =1
+          console.log("returning new starfield",starfield)
+          return starfield
+        }
+      }
     }
     
     init_hud_state(){
