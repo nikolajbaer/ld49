@@ -24,6 +24,7 @@ const config = {
       '.glb': 'file',
       '.obj': 'file',
       '.mp3': 'file',
+      '.wav': 'file',
       '.fbx': 'file',
     },
 }
