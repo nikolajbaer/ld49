@@ -5,6 +5,7 @@ import { LocRotComponent } from "gokart.js/src/core/components/position"
 import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
 import { ExplosionComponent } from "../components/explosion"
 import { ShipComponent } from "../components/ship"
+import { MusicLoopComponent, SoundEffectComponent } from "gokart.js/src/core/components/sound"
 
 export class ShipSystem extends System {
   init(attributes) {
@@ -43,7 +44,7 @@ export class ShipSystem extends System {
       cooling += this.update_manifold(ship.manifolds[1],hud.recv.manifold2,delta)
       cooling += this.update_manifold(ship.manifolds[2],hud.recv.manifold3,delta)
       ship.reactor_heat -= cooling
-
+      
       // Update HUD
       hud.data.reactor_status = ship.reactor_heat/ship.max_reactor_heat
       hud.data.coolant1 = ship.manifolds[0].current/ship.manifolds[0].max
@@ -64,6 +65,14 @@ export class ShipSystem extends System {
         exp.addComponent(ExplosionComponent,{})
         exp.addComponent(LocRotComponent,{location: new Vector3(pos.x,pos.y,0)})
 
+          
+        const hull_sound = "hull"+(Math.floor(Math.random() * 5) + 1)
+        e.addComponent(SoundEffectComponent, {
+          location: {x:pos.x, y:pos.y},
+          sound: hull_sound,
+          volume: 0.3
+        })
+    
         ship.health -= 20
         e.removeComponent(Collision2dComponent)
       }
@@ -72,6 +81,11 @@ export class ShipSystem extends System {
         const pos = e.getComponent(Physics2dComponent).body.getPosition()
         const exp = this.world.createEntity()
         exp.addComponent(ExplosionComponent,{size:3,duration:2})
+        exp.addComponent(MusicLoopComponent, {
+          sound: "explosion",
+          volume: 0.6,
+          playing: false
+        })
         exp.addComponent(LocRotComponent,{location: new Vector3(pos.x,pos.y,0)})
         e.remove() 
         console.log("Game Over!")

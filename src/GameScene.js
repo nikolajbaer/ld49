@@ -9,7 +9,13 @@ import SHIP from "./assets/spaceship.fbx"
 import ASTEROID_MESH1 from "./assets/asteroids/1.fbx"
 import ASTEROID_MESH2 from "./assets/asteroids/2.fbx"
 import ASTEROID_MESH3 from "./assets/asteroids/3.fbx"
-
+import THEME_MUSIC from "./assets/music/theme.mp3"
+import HULLHIT_1 from "./assets/sfx/hull-a.wav"
+import HULLHIT_2 from "./assets/sfx/hull-c.wav"
+import HULLHIT_3 from "./assets/sfx/hull-e.wav"
+import HULLHIT_4 from "./assets/sfx/hull-g.wav"
+import HULLHIT_5 from "./assets/sfx/hull-a2.wav"
+import EXPLOSION from "./assets/sfx/explode.wav"
 
 import { ActionListenerComponent } from "gokart.js/src/core/components/controls"
 import { ShipControlsSystem } from "./systems/ship_controls"
@@ -20,6 +26,7 @@ import { HUDDataComponent } from "gokart.js/src/core/components/hud"
 import { ShipSystem } from "./systems/ship"
 import { ExplosionComponent } from "./components/explosion"
 import { ExplosionSystem } from "./systems/explosion"
+import { MusicLoopComponent, SoundEffectComponent } from "gokart.js/src/core/components/sound"
 
 class UnstableHUDState {
     health = 0
@@ -41,6 +48,9 @@ class UnstableHUDState {
 
 export class GameScene extends Physics2dScene {
     init_entities(){
+
+        const music = this.world.createEntity()
+        music.addComponent(MusicLoopComponent, {volume: 0.2, sound:"theme"})
 
         const l2 = this.world.createEntity()
         l2.addComponent(LocRotComponent,{location: new Vector3(0,20,30),rotation: new Vector3(-Math.PI/4,0,0)})
@@ -100,6 +110,40 @@ export class GameScene extends Physics2dScene {
               offset: new Vector3(0,0,0),
             }
         }
+    }
+
+    get_sounds_to_load() {
+      return {
+        "theme": {
+          url:THEME_MUSIC,
+          name:"theme",
+          loop:true,
+        },
+        "hull1": {
+          url:HULLHIT_1,
+          name:"hull1",
+        },
+        "hull2": {
+          url:HULLHIT_2,
+          name:"hull2",
+        },
+        "hull3": {
+          url:HULLHIT_3,
+          name:"hull3",
+        },
+        "hull4": {
+          url:HULLHIT_4,
+          name:"hull4",
+        },
+        "hull5": {
+          url:HULLHIT_5,
+          name:"hull5",
+        },
+        "explosion": {
+          url:EXPLOSION,
+          name:"explosion",
+        }
+      }
     }
     
     init_hud_state(){

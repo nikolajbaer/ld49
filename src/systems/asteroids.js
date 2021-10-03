@@ -6,6 +6,7 @@ import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
 import { AsteroidComponent } from "../components/asteroids"
 //import SHIP_GLB from "./assets/craft_speederD.glb";
 import { LogLuvEncoding } from "three"
+import { SoundEffectComponent } from "gokart.js/src/core/components/sound"
 
 
 export class AsteroidsSystem extends System {
