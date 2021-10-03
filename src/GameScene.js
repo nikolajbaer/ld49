@@ -124,6 +124,8 @@ export class GameScene extends Physics2dScene {
           starfield.renderOrder =1
           console.log("returning new starfield",starfield)
           return starfield
+        }
+      }
     }
 
     get_sounds_to_load() {
