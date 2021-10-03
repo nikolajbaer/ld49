@@ -41,9 +41,17 @@ class Game extends React.Component {
 
     toggle_coolant(num,hudState){
         console.log("Toggling manifold "+num)
-        hudState.manifold1 = num == 1
-        hudState.manifold2 = num == 2
-        hudState.manifold3 = num == 3
+        hudState.manifold1 = (num == 1)?!hudState.manifold1:false
+        hudState.manifold2 = (num == 2)?!hudState.manifold2:false
+        hudState.manifold3 = (num == 3)?!hudState.manifold3:false
+    }
+
+    gameOverMenu(){
+        return (
+            <div className="menu">
+                <h1>Game Over</h1>
+            </div>
+        )
     }
 
     render(){
@@ -54,30 +62,33 @@ class Game extends React.Component {
                     <div className="panel">
                         <HUDView hudState={hudState}>
                         {hudState => (
-                        <div className="control">
-                            <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
-                            <div className="coolant progress">
-                                <div style={hudState?{width:(hudState.coolant1*100)+"%"}:{width:"1%"}}></div>
-                            </div>
-                            <button onClick={() => this.toggle_coolant(1,hudState)}>Toggle Coolant 1 {(hudState && hudState.manifold1)?"*":""}</button>
-                            <div className="coolant progress">
-                                <div style={hudState?{width:(hudState.coolant2*100)+"%"}:{width:"1%"}}></div>
-                            </div>
-                            <button onClick={() => this.toggle_coolant(2,hudState)}>Toggle Coolant 2 {(hudState && hudState.manifold2)?"*":""}</button>
-                            <div className="coolant progress">
-                                <div style={hudState?{width:(hudState.coolant3*100)+"%"}:{width:"1%"}}></div>
-                            </div>
-                            <button onClick={() => this.toggle_coolant(3,hudState)}>Toggle Coolant 3 {(hudState && hudState.manifold3)?"*":""}</button>
+                        <React.Fragment>
+                            {(hudState != undefined && hudState.game_over)?this.gameOverMenu():""}
+                            <div className="control">
+                                <p><input type="checkbox" checked={this.state.fullscreen} onChange={this.handleFullscreen} /> Fullscreen</p>
+                                <div className="coolant progress">
+                                    <div style={hudState?{width:(hudState.coolant1*100)+"%"}:{width:"1%"}}></div>
+                                </div>
+                                <button onClick={() => this.toggle_coolant(1,hudState)}>Toggle Coolant 1 {(hudState && hudState.manifold1)?"*":""}</button>
+                                <div className="coolant progress">
+                                    <div style={hudState?{width:(hudState.coolant2*100)+"%"}:{width:"1%"}}></div>
+                                </div>
+                                <button onClick={() => this.toggle_coolant(2,hudState)}>Toggle Coolant 2 {(hudState && hudState.manifold2)?"*":""}</button>
+                                <div className="coolant progress">
+                                    <div style={hudState?{width:(hudState.coolant3*100)+"%"}:{width:"1%"}}></div>
+                                </div>
+                                <button onClick={() => this.toggle_coolant(3,hudState)}>Toggle Coolant 3 {(hudState && hudState.manifold3)?"*":""}</button>
 
-                            <p>Reactor Status</p>
-                            <div className="reactor progress">
-                                <div style={hudState?{width:(hudState.reactor_status*100)+"%"}:{width:"1%"}}></div>
+                                <p>Reactor Status</p>
+                                <div className="reactor progress">
+                                    <div style={hudState?{width:(hudState.reactor_status*100)+"%"}:{width:"1%"}}></div>
+                                </div>
+                                <p>Ship Hull Status</p>
+                                <div className="hull progress">
+                                    <div style={hudState?{width:(hudState.health)+"%"}:{width:"100%"}}></div>
+                                </div>
                             </div>
-                            <p>Ship Hull Status</p>
-                            <div className="hull progress">
-                                <div style={hudState?{width:(hudState.health)+"%"}:{width:"100%"}}></div>
-                            </div>
-                        </div>
+                        </React.Fragment>
                         )} 
                         </HUDView>
                     </div>

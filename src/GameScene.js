@@ -18,6 +18,8 @@ import { ShipComponent } from "./components/ship"
 import { makeAutoObservable, runInAction } from "mobx"
 import { HUDDataComponent } from "gokart.js/src/core/components/hud"
 import { ShipSystem } from "./systems/ship"
+import { ExplosionComponent } from "./components/explosion"
+import { ExplosionSystem } from "./systems/explosion"
 
 class UnstableHUDState {
     health = 0
@@ -29,6 +31,7 @@ class UnstableHUDState {
     coolant1 = 0
     coolant2 = 0
     coolant3 = 0
+    game_over = 0
 
     constructor(){
         makeAutoObservable(this)
@@ -53,7 +56,7 @@ export class GameScene extends Physics2dScene {
         const ship = this.world.createEntity()
         ship.addComponent(ModelComponent,{geometry:"ship"})
         ship.addComponent(LocRotComponent,{location: new Vector3(0,0,0),rotation: new Vector3(Math.PI/2,0,0)})
-        ship.addComponent(Body2dComponent,{body_type:'kinematic'})
+        ship.addComponent(Body2dComponent,{body_type:'kinematic',track_collisions:true})
         ship.addComponent(ActionListenerComponent)
         ship.addComponent(ShipComponent)
         ship.addComponent(HUDDataComponent)
@@ -64,6 +67,7 @@ export class GameScene extends Physics2dScene {
       super.register_components()
       this.world.registerComponent(AsteroidComponent)
       this.world.registerComponent(ShipComponent)
+      this.world.registerComponent(ExplosionComponent)
     }
 
     register_systems(){
@@ -73,6 +77,7 @@ export class GameScene extends Physics2dScene {
       })
       this.world.registerSystem(ShipControlsSystem)
       this.world.registerSystem(ShipSystem)
+      this.world.registerSystem(ExplosionSystem)
     }
 
     get_meshes_to_load(){

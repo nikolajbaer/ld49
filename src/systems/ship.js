@@ -1,7 +1,9 @@
 import { System,Not } from "ecsy"
 import { HUDDataComponent } from "gokart.js/src/core/components/hud"
-import { Physics2dComponent } from "gokart.js/src/core/components/physics2d"
-import { Vector2 } from "three"
+import { Collision2dComponent, Physics2dComponent } from "gokart.js/src/core/components/physics2d"
+import { LocRotComponent } from "gokart.js/src/core/components/position"
+import { Vector3,Vector2 } from "gokart.js/src/core/ecs_types"
+import { ExplosionComponent } from "../components/explosion"
 import { ShipComponent } from "../components/ship"
 
 export class ShipSystem extends System {
@@ -9,10 +11,13 @@ export class ShipSystem extends System {
     this.reactor_meltdown_time = 30  // 30 seconds til meltdown
   }
 
+  // If manifold is enabled
+  // we release coolant at the flow level 
+  // if there is coolant available
+  // otherwise it charges up 
   update_manifold(m,on,delta){
     let cooling = 0
     if(on && m.current > 0){
-      console.log("Manifold on!")
       m.current -= m.flow * delta
       if(m.current < 0){ 
         m.current =  0 
@@ -49,9 +54,28 @@ export class ShipSystem extends System {
       if(ship.reactor_heat > ship.max_reactor_heat){
         ship.reactor_heat = ship.max_reactor_heat
       }
+
+      if(e.hasComponent(Collision2dComponent)){
+        const col = e.getComponent(Collision2dComponent)
+        const pos = col.entity.getComponent(Physics2dComponent).body.getPosition()
+        col.entity.remove()
+
+        const exp = this.world.createEntity()
+        exp.addComponent(ExplosionComponent,{})
+        exp.addComponent(LocRotComponent,{location: new Vector3(pos.x,pos.y,0)})
+
+        ship.health -= 20
+        e.removeComponent(Collision2dComponent)
+      }
+
       if(ship.health <= 0 || ship.reactor_heat == ship.max_reactor_heat){
-        //e.remove() 
-        // Add explosion?
+        const pos = e.getComponent(Physics2dComponent).body.getPosition()
+        const exp = this.world.createEntity()
+        exp.addComponent(ExplosionComponent,{size:3,duration:2})
+        exp.addComponent(LocRotComponent,{location: new Vector3(pos.x,pos.y,0)})
+        e.remove() 
+        console.log("Game Over!")
+        hud.data.game_over = true
       }
 
     })

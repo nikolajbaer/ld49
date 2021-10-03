@@ -16,11 +16,22 @@ export class ShipControlsSystem extends System {
       const body = e.getComponent(Physics2dComponent).body
       
       // on left or right, set the velocity
+      /*
       const v = body.getLinearVelocity();
       if(actions['left']){
         body.setLinearVelocity({x:v.x-SHIP_ACCELERATION,y:v.y})
       }else if(actions['right']){
         body.setLinearVelocity({x:v.x+SHIP_ACCELERATION,y:v.y})
+      }
+      */
+
+      // Easier controls \_()o_o)_/
+      if(actions['left']){
+        body.setLinearVelocity({x:-20,y:0})
+      }else if(actions['right']){
+        body.setLinearVelocity({x:20,y:0})
+      }else{
+        body.setLinearVelocity({x:0,y:0})
       }
 
       const p = body.getPosition();

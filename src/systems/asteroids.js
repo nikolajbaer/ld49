@@ -28,7 +28,7 @@ export class AsteroidsSystem extends System {
   spawn_asteroid(){
     const e = this.world.createEntity()
     const pos = this.start_pos()
-    e.addComponent(Body2dComponent,{body_type:'kinematic'})
+    e.addComponent(Body2dComponent,{body_type:'dynamic'})
     const geo = "asteroid" + (Math.floor(Math.random() * 3) + 1);
     console.log("geo", geo);
     e.addComponent(ModelComponent,{geometry:geo})
