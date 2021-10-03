@@ -28,6 +28,9 @@ import { ExplosionComponent } from "./components/explosion"
 import { ExplosionSystem } from "./systems/explosion"
 import { StarField } from "./util/Starfield"
 import { MusicLoopComponent, SoundEffectComponent } from "gokart.js/src/core/components/sound"
+import * as THREE from "three"
+import { StarsComponent } from "./components/stars"
+import { StarsSystem } from "./systems/stars"
 
 class UnstableHUDState {
     health = 0
@@ -63,7 +66,8 @@ export class GameScene extends Physics2dScene {
 
         const stars = this.world.createEntity()
         stars.addComponent(ModelComponent,{geometry:"starfield"})
-        stars.addComponent(LocRotComponent)
+        stars.addComponent(LocRotComponent, {location: new Vector3(0,0,0)})
+        stars.addComponent(StarsComponent)
 
         const ship = this.world.createEntity()
         ship.addComponent(ModelComponent,{geometry:"ship"})
@@ -80,6 +84,7 @@ export class GameScene extends Physics2dScene {
       this.world.registerComponent(AsteroidComponent)
       this.world.registerComponent(ShipComponent)
       this.world.registerComponent(ExplosionComponent)
+      this.world.registerComponent(StarsComponent)
     }
 
     register_systems(){
@@ -90,6 +95,7 @@ export class GameScene extends Physics2dScene {
       this.world.registerSystem(ShipControlsSystem)
       this.world.registerSystem(ShipSystem)
       this.world.registerSystem(ExplosionSystem)
+      this.world.registerSystem(StarsSystem)
     }
 
     get_meshes_to_load(){
@@ -120,9 +126,9 @@ export class GameScene extends Physics2dScene {
     get_mesh_functions(){
       return {
         "starfield": (entity,material,receiveShadow,castShadow) => {  
-          const starfield = new StarField(10000)
-          starfield.renderOrder =1
-          console.log("returning new starfield",starfield)
+          const starfield = new StarField(1000,{x: 100, y: 100, z: 100})
+          starfield.stars.rotation.x = Math.PI/2
+          //starfield.warp_speed()
           return starfield
         }
       }

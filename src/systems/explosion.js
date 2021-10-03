@@ -9,7 +9,7 @@ export class ExplosionSystem extends System {
             e.addComponent( ModelComponent, { 
                 geometry: "sphere", 
                 material: 0xFFAA00,
-                scale: 0.1 ,
+                scale: 0.5 ,
                 cast_shadow: false,
                 receive_shadow: false,
             } )

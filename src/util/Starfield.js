@@ -15,12 +15,12 @@ export class StarField extends THREE.Object3D {
         this.va = this.vel.array;
 
         for (let line_index= 0; line_index < line_count; line_index++) {
-            var x = Math.random() * this.extents.x - 200;
-            var y = Math.random() * this.extents.y - 100;
-            var z = Math.random() * this.extents.z - 100;
-            var xx = x;
-            var yy = y;
-            var zz = z;
+            var x = Math.random() * this.extents.x * 2  - this.extents.x;
+            var y = Math.random() * this.extents.y * 2 - this.extents.y;
+            var z = Math.random() * this.extents.z * 2 - this.extents.z;
+            var xx = x+.1;
+            var yy = y+.1;
+            var zz = z+.1;
             //line start
             this.pa[6*line_index] = x;
             this.pa[6*line_index+1] = y;
@@ -40,6 +40,7 @@ export class StarField extends THREE.Object3D {
         let mat = new THREE.LineBasicMaterial({color: 0xffffff, depthTest: false});
         let lines = new THREE.LineSegments(this.geom, mat); 
         this.add(lines);
+        this.stars = lines
     }
 
     warp_speed(){
