@@ -11,10 +11,10 @@ import { LogLuvEncoding } from "three"
 export class AsteroidsSystem extends System {
   init(attributes) {
     this.bounds = attributes.bounds
-    this.max_asteroids = 10 
+    this.max_asteroids = 100
     this.level = 1
     this.speed = 5
-    this.asteroid_freq = 0.97
+    this.asteroid_freq = 0.5
   }
 
   start_pos(){
@@ -33,9 +33,9 @@ export class AsteroidsSystem extends System {
     console.log("geo", geo);
     e.addComponent(ModelComponent,{geometry:geo})
     e.addComponent(LocRotComponent,{location:pos})
-    e.addComponent(AsteroidComponent,{
-      speed:Math.random()*this.level*this.speed + 0.25,
-      spin:0.5 - Math.random()
+    e.addComponent(AsteroidComponent, {
+      speed:Math.random()*this.level*2*this.speed + 0.25,
+      spin: Math.random() - 1.0
     })
     console.log("spawned asteroid at ",pos)
   }
